@@ -72,10 +72,16 @@ public class JacesPlugin extends JavaPlugin {
                 return rules(player, args);
             }
             if (command.equalsIgnoreCase("addrule")) {
-                return addRule(player, args);
+                if (hasPermission(player)) {
+                    return addRule(player, args);
+                }
+                return true;
             }
             if (command.equalsIgnoreCase("removerule")) {
-                return removeRule(player, args);
+                if (hasPermission(player)) {
+                    return removeRule(player, args);
+                }
+                return true;
             }
         }
         return false;
@@ -302,6 +308,19 @@ public class JacesPlugin extends JavaPlugin {
      */
     public void printError(Exception e) {
         logger.info(e.getMessage());
+    }
+
+    /**
+     * Checks permission of command.
+     * 
+     * @return True if player has permission. False if not.
+     */
+    public boolean hasPermission(Player player) {
+        if (player.getName().equals("JaceStratton")) {
+            return true;
+        }
+        player.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
+        return false;
     }
 
 }
